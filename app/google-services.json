@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "690519877810",
+    "project_id": "letter-app-cdc24",
+    "storage_bucket": "letter-app-cdc24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690519877810:android:ebd9eb83dbe99ce556c1ab",
+        "android_client_info": {
+          "package_name": "com.ariyo.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690519877810-hqvqi8ikk4a20fcjubbe2h070v3vri87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANKVa-L_Loit8mGcHN_subVgOEX_cPAHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690519877810-hqvqi8ikk4a20fcjubbe2h070v3vri87.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
