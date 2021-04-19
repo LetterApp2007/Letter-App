@@ -58,8 +58,9 @@ ImageButton btnSend;
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(ChatDetailActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                ChatDetailActivity.this.finish();
+
             }
         });
 
@@ -93,23 +94,24 @@ ImageButton btnSend;
 
         btnSend.setOnClickListener(v -> {
             String message=inpMsg.getText().toString();
-            final MessageModel model=new MessageModel(senderId, message);
-            model.setTimestamp(new Date().getTime());
-            inpMsg.setText("");
-            database.getReference().child("Chats").child(senderRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    database.getReference().child("Chats").child(receiverRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
+            if (message!=null) {
+                final MessageModel model = new MessageModel(senderId, message);
+                model.setTimestamp(new Date().getTime());
+                inpMsg.setText("");
+                database.getReference().child("Chats").child(senderRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        database.getReference().child("Chats").child(receiverRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
-                            // TODO
-                        }
-                    });
-                }
-            });
+                                // TODO
+                            }
+                        });
+                    }
+                });
+            }
 
         });
-
+        }
     }
-}

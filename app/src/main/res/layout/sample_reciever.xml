@@ -10,6 +10,7 @@
     android:background="@drawable/bg_reciever"
     android:maxWidth="310dp"
     android:maxHeight="400dp"
+    android:minWidth="150dp"
     android:minHeight="30dp">
 
     <TextView
@@ -21,7 +22,8 @@
         android:fontFamily="@font/baloo_bhai"
         android:inputType="textLongMessage|textMultiLine"
         android:maxWidth="270dp"
-        android:minWidth="50dp"
+        android:minWidth="100dp"
+        android:textSize="16sp"
         android:text="Message"
         app:layout_constraintBottom_toTopOf="@+id/recieverTime"
         app:layout_constraintStart_toStartOf="@+id/guideline2"

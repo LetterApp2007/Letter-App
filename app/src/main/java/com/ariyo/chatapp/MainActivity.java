@@ -6,14 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,8 +37,9 @@ FirebaseAuth mAuth;
 List<String> userContacts;
 List<UserAccount> displayList;
 List<String> contactList;
-String name, phone, age, image, uid;
+String phone, uid;
 RecyclerView recyclerView;
+
 
     private FirebaseDatabase fireDb; // declare for Firebase database
     private DatabaseReference dataRef;
@@ -55,47 +55,24 @@ RecyclerView recyclerView;
         dataRef = fireDb.getReference("Users");
         recyclerView=findViewById(R.id.recycler_view);
         uid=mAuth.getCurrentUser().getUid();
+        phone=mAuth.getCurrentUser().getPhoneNumber();
 
-        getAllUserData();
+
 
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this, RecyclerView.VERTICAL, false);
 
         recyclerView.setLayoutManager(linearLayoutManager);
+        syncUserContacts();
 
 
     }
 
 
 
-    private void getAllUserData() {
-        dataRef.getRef().child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Map<String, Object> user= (Map<String, Object>) snapshot.getValue();
-                name= user.get(ConstantKeys.KEY_NAME).toString();
-                phone= user.get(ConstantKeys.KEY_PHONE).toString();
-                age= user.get(ConstantKeys.KEY_AGE).toString();
-                try {
-
-                    image = user.get(ConstantKeys.KEY_IMAGE).toString();
-                }catch (Exception e){
-                    image=null;
-                }
-
-
-                syncUserContacts();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
     private void syncUserContacts() {
+        ProgressDialog pd =new ProgressDialog(MainActivity.this);
 
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
@@ -149,8 +126,10 @@ RecyclerView recyclerView;
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "Done Syncing Contacts", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(MainActivity.this, "Done Syncing Contacts", Toast.LENGTH_LONG).show();
+                            pd.dismiss();
                         } else {
+
                             Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
