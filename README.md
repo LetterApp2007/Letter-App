@@ -1,4 +1,4 @@
-# :wave: Hello This is letter App
+# :wave: Hello This is Letter App
 This is a chatting app made by some Awsome people (Ariyo Halder, Kishalay Bhattachariya)
 We are Android Developers Made This project for Our Academic Training Certification at Ardent Computech PVT . LTD.
 
