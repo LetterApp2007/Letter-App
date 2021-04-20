@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -94,9 +96,11 @@ ImageButton btnSend;
 
         btnSend.setOnClickListener(v -> {
             String message=inpMsg.getText().toString();
-            if (message!=null) {
+//            if (message.equals("")) {
                 final MessageModel model = new MessageModel(senderId, message);
-                model.setTimestamp(new Date().getTime());
+            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            Date dateobj = new Date();
+                model.setTimestamp(df.format(dateobj));
                 inpMsg.setText("");
                 database.getReference().child("Chats").child(senderRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -110,7 +114,7 @@ ImageButton btnSend;
                         });
                     }
                 });
-            }
+//            }
 
         });
         }

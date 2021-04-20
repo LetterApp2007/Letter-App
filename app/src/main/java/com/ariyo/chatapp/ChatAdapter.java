@@ -44,10 +44,14 @@ public class ChatAdapter extends RecyclerView.Adapter{
         MessageModel messageModel=messageModels.get(position);
         if (holder.getClass()==SenderViewHolder.class){
             ((SenderViewHolder) holder).senderMsg.setText(messageModel.getMessage());
-            ((SenderViewHolder)holder).senderTime.setText(String.valueOf(messageModel.getTimestamp()));
+            String []dateStamp=messageModel.getTimestamp().split(" ");
+            String time=dateStamp[1];
+            ((SenderViewHolder)holder).senderTime.setText(time);
         }else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(messageModel.getMessage());
-            ((ReceiverViewHolder)holder).receiverTime.setText(String.valueOf(messageModel.getTimestamp()));
+            String []dateStamp=messageModel.getTimestamp().split(" ");
+            String time=dateStamp[1];
+            ((ReceiverViewHolder)holder).receiverTime.setText(time);
         }
     }
 

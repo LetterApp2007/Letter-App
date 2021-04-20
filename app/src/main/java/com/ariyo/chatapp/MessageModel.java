@@ -3,9 +3,9 @@ package com.ariyo.chatapp;
 public class MessageModel {
 
     String Uid, message;
-    Long timestamp;
+    String timestamp;
 
-    public MessageModel(String uid, String message, Long timestamp) {
+    public MessageModel(String uid, String message, String timestamp) {
         Uid = uid;
         this.message = message;
         this.timestamp = timestamp;
@@ -33,11 +33,11 @@ public class MessageModel {
         this.message = message;
     }
 
-    public Long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }
