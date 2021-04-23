@@ -145,10 +145,39 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                                 String name=getIntent().getStringExtra(ConstantKeys.KEY_NAME);
                                 String age=getIntent().getStringExtra(ConstantKeys.KEY_AGE);
                                 String uid = mAuth.getCurrentUser().getUid();
-                                addUser(uid, phone, name, age);
-                                Intent r = new Intent(PhoneVerificationActivity.this, MainActivity.class);
-                                r.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(r);
+
+                                DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users");
+
+                                reference.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        Map<String, String> user = (Map<String, String>) snapshot.getValue();
+                                        try {
+                                            String dbname=user.get(ConstantKeys.KEY_NAME);
+                                            if (dbname!=null){
+                                                Toast.makeText(PhoneVerificationActivity.this, "User Already Exits!!", Toast.LENGTH_LONG).show();
+                                                Intent r = new Intent(PhoneVerificationActivity.this, LoginActivity.class);
+                                                r.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(r);
+                                                mAuth.getCurrentUser().delete();
+                                            }
+
+                                        }catch (Exception a){
+                                            addUser(uid, phone, name, age);
+                                            Intent r = new Intent(PhoneVerificationActivity.this, MainActivity.class);
+                                            r.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(r);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        Toast.makeText(PhoneVerificationActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+
                             } else{
                                 //Login
                                 String uid=mAuth.getCurrentUser().getUid();

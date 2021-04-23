@@ -54,6 +54,7 @@ ImageButton btnSend;
         profileImage=findViewById(R.id.profile_image);
         backArrow=findViewById(R.id.backArrow);
         profileName.setText(userName);
+        inpMsg.setText("");
         Picasso.get().load(profilePicture).placeholder(R.drawable.account).into(profileImage);
 
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +97,7 @@ ImageButton btnSend;
 
         btnSend.setOnClickListener(v -> {
             String message=inpMsg.getText().toString();
-//            if (message.equals("")) {
+            if (message.equals("")) {
                 final MessageModel model = new MessageModel(senderId, message);
             DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
             Date dateobj = new Date();
@@ -114,7 +115,7 @@ ImageButton btnSend;
                         });
                     }
                 });
-//            }
+            }
 
         });
         }
