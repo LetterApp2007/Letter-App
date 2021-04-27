@@ -65,14 +65,12 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
         pd=findViewById(R.id.progressBar);
         phone= getIntent().getStringExtra(ConstantKeys.KEY_PHONE);
 
-
         sendVerificationCode(phone);
 
         verifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String code = inpOtp.getText().toString();
-
                 if (code.isEmpty() || code.length() < 6) {
                     inpOtp.setError("Wrong OTP...");
                     inpOtp.requestFocus();
@@ -82,7 +80,6 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                 verifyCode(code);
             }
         });
-
     }
 
     private void sendVerificationCode(String phone) {
@@ -101,14 +98,11 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                     pd.setVisibility(View.VISIBLE);
                     verifyCode(code);
                 }
-
-
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 Toast.makeText(PhoneVerificationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-
             }
         };
         PhoneAuthOptions options =
@@ -138,10 +132,9 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
                         if (task.isSuccessful()) {
 
-
                             String AddUser=getIntent().getStringExtra("AddUser");
                             if (AddUser!=null){
-//                                SignUp
+                                //SignUp
                                 String name=getIntent().getStringExtra(ConstantKeys.KEY_NAME);
                                 String age=getIntent().getStringExtra(ConstantKeys.KEY_AGE);
                                 String uid = mAuth.getCurrentUser().getUid();
@@ -155,7 +148,7 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                                         try {
                                             String dbname=user.get(ConstantKeys.KEY_NAME);
                                             if (dbname!=null){
-                                                Toast.makeText(PhoneVerificationActivity.this, "User Already Exits!!", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PhoneVerificationActivity.this, "User Already Exists!!", Toast.LENGTH_LONG).show();
                                                 Intent r = new Intent(PhoneVerificationActivity.this, LoginActivity.class);
                                                 r.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                 startActivity(r);
@@ -207,12 +200,12 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                                                 });
                                                 pd.setVisibility(View.INVISIBLE);
                                             }
-                                        } catch (Exception e){
-                                            Toast.makeText(PhoneVerificationActivity.this, "User Does not exists idiot!!", Toast.LENGTH_LONG).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(PhoneVerificationActivity.this, "User does not exist", Toast.LENGTH_LONG).show();
                                             mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         Intent r = new Intent(PhoneVerificationActivity.this, LoginActivity.class);
                                                         r.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                         startActivity(r);
@@ -220,12 +213,7 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                                                 }
                                             });
                                             pd.setVisibility(View.INVISIBLE);
-
-
                                         }
-
-
-
                                     }
 
                                     @Override
@@ -235,13 +223,11 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
                                         Intent r = new Intent(PhoneVerificationActivity.this, LoginActivity.class);
                                         r.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(r);
-
                                     }
                                 });
-
                             }
-
-                        } else {
+                        }
+                        else {
                             Toast.makeText(PhoneVerificationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -272,6 +258,4 @@ PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
             }
         });
     }
-
-
 }

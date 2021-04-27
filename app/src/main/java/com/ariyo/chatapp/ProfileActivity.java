@@ -104,9 +104,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-
-
-
     private void getImageUploaded() {
         final ProgressDialog pd = new ProgressDialog(ProfileActivity.this);
         pd.setTitle("Uploading...");
@@ -144,7 +141,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                 });
-
     }
     
     private void updateProfile() {
@@ -172,8 +168,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     private void getAllInfo() {
         database.getReference("Users").getRef().child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -206,8 +200,6 @@ public class ProfileActivity extends AppCompatActivity {
                     contactList=account.getContactList();
 
                 }
-
-
             }
 
             @Override
@@ -235,8 +227,6 @@ public class ProfileActivity extends AppCompatActivity {
             fileUri = data.getData();
             Picasso.get().load(fileUri).into(civ);
         }
-
-
     }
 
     private void store(Bitmap bitmap) {
@@ -256,6 +246,5 @@ public class ProfileActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

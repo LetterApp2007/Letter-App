@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Letter</string>
+    <string name="title_activity_temp">Map</string>
 </resources>

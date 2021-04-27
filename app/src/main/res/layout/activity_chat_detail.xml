@@ -74,7 +74,7 @@
         <EditText
             android:layout_width="280dp"
             android:fontFamily="@font/baloo_bhai"
-            android:hint="Say Some thing!"
+            android:hint="Say Something!"
             android:background="@drawable/send_edittext_bg"
             android:elevation="10dp"
             android:padding="10dp"

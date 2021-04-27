@@ -96,11 +96,11 @@ ImageButton btnSend;
         });
 
         btnSend.setOnClickListener(v -> {
-            String message=inpMsg.getText().toString();
-            if (message.equals("")) {
+            String message=inpMsg.getText().toString().trim();
+            if (!message.equals("")) {
                 final MessageModel model = new MessageModel(senderId, message);
-            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-            Date dateobj = new Date();
+                DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+                Date dateobj = new Date();
                 model.setTimestamp(df.format(dateobj));
                 inpMsg.setText("");
                 database.getReference().child("Chats").child(senderRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -116,7 +116,6 @@ ImageButton btnSend;
                     }
                 });
             }
-
         });
         }
     }

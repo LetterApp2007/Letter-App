@@ -56,21 +56,10 @@ RecyclerView recyclerView;
         recyclerView=findViewById(R.id.recycler_view);
         uid=mAuth.getCurrentUser().getUid();
         phone=mAuth.getCurrentUser().getPhoneNumber();
-
-
-
-
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this, RecyclerView.VERTICAL, false);
-
         recyclerView.setLayoutManager(linearLayoutManager);
         syncUserContacts();
-
-
     }
-
-
-
-
     private void syncUserContacts() {
         ProgressDialog pd =new ProgressDialog(MainActivity.this);
 
@@ -97,11 +86,8 @@ RecyclerView recyclerView;
                                             user.get(ConstantKeys.KEY_IMAGE).toString(),
                                             (List) user.get(ConstantKeys.KEY_CONTACT_LIST),
                                             user.get(ConstantKeys.KEY_UID).toString());
-
                                     displayList.add(account);
-
-
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     UserAccount account = new UserAccount(
                                             user.get(ConstantKeys.KEY_NAME).toString(),
                                             user.get(ConstantKeys.KEY_AGE).toString(),
@@ -111,12 +97,9 @@ RecyclerView recyclerView;
                                             user.get(ConstantKeys.KEY_UID).toString());
                                     displayList.add(account);
                                 }
-
                             }
                         }
-
                     }
-
                 }
                 RVAdapter adapter=new RVAdapter(MainActivity.this, displayList, R.layout.recycler_item);
                 recyclerView.setAdapter(adapter);
@@ -134,8 +117,6 @@ RecyclerView recyclerView;
                         }
                     }
                 });
-
-
             }
 
             @Override
@@ -149,20 +130,24 @@ RecyclerView recyclerView;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode==1){
             if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 getContact();
             }
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void getContact() {
-
         Cursor cursor=getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-        while (cursor.moveToNext()){
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
             String mobile=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            userContacts.add(mobile.trim());
+            String m = (mobile.startsWith("+91")?mobile:"+91" + mobile).trim();
+            String mob = MyClass.removeSpaces(m);
+            if (!userContacts.contains(mob))
+                userContacts.add(mob);
+            cursor.moveToNext();
         }
     }
 
@@ -178,6 +163,8 @@ RecyclerView recyclerView;
         switch (item.getItemId()){
             case R.id.menu_logout:
                 mAuth.signOut();
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
                 MainActivity.this.finish();
                 break;
             case R.id.menu_settings:
@@ -187,5 +174,16 @@ RecyclerView recyclerView;
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+}
+
+class MyClass {
+    public static String removeSpaces(String s) {
+        String w = "";
+        for (char ch: s.toCharArray()) {
+            if (ch != ' ')
+                w = w + ch;
+        }
+        return w;
     }
 }

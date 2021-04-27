@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class SignupActivity extends AppCompatActivity {
 TextView txtLogin;
 private FirebaseAuth mAuth;
+TextInputLayout layoutName, layoutPhone, layoutAge;
 TextInputEditText inpName, inpPhone, inpAge;
 Button btnSignup;
 FirebaseDatabase database;
@@ -45,7 +47,9 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
         mAuth = FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         txtLogin=findViewById(R.id.txt_login);
-
+        layoutName = findViewById(R.id.lay_name);
+        layoutPhone = findViewById(R.id.lay_phone);
+        layoutAge = findViewById(R.id.lay_age);
         inpPhone=findViewById(R.id.inp_phone);
         inpName=findViewById(R.id.inp_name);
         inpAge=findViewById(R.id.inp_age);
@@ -56,38 +60,43 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
         });
         btnSignup=findViewById(R.id.btn_signup);
         btnSignup.setOnClickListener(v -> {
+            layoutName.setError(null);
+            layoutPhone.setError(null);
+            layoutAge.setError(null);
             phone=inpPhone.getText().toString();
             age=inpAge.getText().toString();
             name=inpName.getText().toString();
-            if (phone!=null&&age!=null && name!=null){
-                if (Integer.parseInt(age)>=13){
-
+            if (!phone.equals("") && !age.equals("") && !name.equals("")){
+                phone = MyClass.removeSpaces(phone);
+                if (!phone.startsWith("+91"))
+                    phone = "+91" + phone;
+                if (phone.length() != 13)
+                    layoutPhone.setError("Invalid phone number");
+                else if (Integer.parseInt(age)>=12) {
                     signUp(phone);
-                } else {
-                    Toast.makeText(SignupActivity.this, "You Should be older than 13 to chat with girls!!!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    layoutAge.setError("Sorry, you should be at least 12 years in order to chat");
                 }
             }
             else {
-                Toast.makeText(SignupActivity.this, "Field Can't be blank", Toast.LENGTH_SHORT).show();
+                if (phone.equals(""))
+                    layoutPhone.setError("Field cannot be empty");
+                if (name.equals(""))
+                    layoutName.setError("Field cannot be empty");
+                if (age.equals(""))
+                    layoutAge.setError("Field cannot be empty");
             }
         });
-
-
-
     }
 
     private void signUp(String phone) {
-
-
-            Intent r= new Intent(SignupActivity.this, PhoneVerificationActivity.class);
+            Intent r = new Intent(SignupActivity.this, PhoneVerificationActivity.class);
             r.putExtra(ConstantKeys.KEY_PHONE, phone);
             r.putExtra("AddUser", "yes");
             r.putExtra(ConstantKeys.KEY_NAME, name);
             r.putExtra(ConstantKeys.KEY_AGE, age);
             startActivity(r);
             SignupActivity.this.finish();
-
     }
-
-
 }

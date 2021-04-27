@@ -65,7 +65,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UI>{
         CircleImageView uiImage;
         TextView uiName;
         public UI(@NonNull View itemView) {
-
             super(itemView);
             uiImage=itemView.findViewById(R.id.display_img);
             uiName=itemView.findViewById(R.id.display_name);
