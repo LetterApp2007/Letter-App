@@ -9,7 +9,7 @@ We are Android Developers Made This project for Our Academic Training Certificat
   . Minimum i3 processor, i5 processor recomended
 ## Software Requirements 💻
   . Android Studio 4.0 or later <br />
-  . Minimum SDK level 5.0
+  . JDK 8 or later ☕
 
 ## Feel Free to contribute in this Repo. :+1:
 #### :exclamation: **But Please Don't Do any meaning-less thing Just for HacktoberFest or Something, that will not be accepted. 💩** 
