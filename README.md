@@ -1,5 +1,5 @@
 # :wave: Hello This is Letter App
-This is a chatting app made by some Awsome people (Ariyo Halder, Kishalay Bhattachariya, Samudra Ganguly, Parichita Joadar)
+This is a chatting app made by some Awsome people (Ariyo Halder, Kishalay Bhattacharya, Samudra Ganguly, Parichita Joadar)
 We are Android Developers Made This project for Our Academic Training Certification at Ardent Computech PVT . LTD.
 
 ## We have used Firebase in this project 🔥
